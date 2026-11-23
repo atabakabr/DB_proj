@@ -1,0 +1,169 @@
+﻿DB_proj/
+|-- DormManagerSystem_ASP.NET/
+|   |-- DormManagerSystem/
+|   |   |-- Controllers/
+|   |   |   |-- AuthController.cs
+|   |   |   |-- GuardController.cs
+|   |   |   |-- HomeController.cs
+|   |   |   |-- ManagerController.cs
+|   |   |   |-- StudentController.cs
+|   |   |   \-- SupervisorController.cs
+|   |   |-- Models/
+|   |   |   |-- ErrorViewModel.cs
+|   |   |   |-- GuardInfoViewModel.cs
+|   |   |   |-- ManagerModels.cs
+|   |   |   |-- StudentGuardViewModel.cs
+|   |   |   |-- SupervisorModels.cs
+|   |   |   \-- TrafficRecord.cs
+|   |   |-- Properties/
+|   |   |   \-- launchSettings.json
+|   |   |-- Views/
+|   |   |   |-- Auth/
+|   |   |   |   \-- Login.cshtml
+|   |   |   |-- Guard/
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   |-- PersonalInfo.cshtml
+|   |   |   |   \-- TrafficReport.cshtml
+|   |   |   |-- Home/
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   \-- Privacy.cshtml
+|   |   |   |-- Manager/
+|   |   |   |   |-- AddStudent.cshtml
+|   |   |   |   |-- Announcements.cshtml
+|   |   |   |   |-- Blocks.cshtml
+|   |   |   |   |-- Dormitories.cshtml
+|   |   |   |   |-- EditStudent.cshtml
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   |-- Profile.cshtml
+|   |   |   |   |-- ReserveRoom.cshtml
+|   |   |   |   |-- Rooms.cshtml
+|   |   |   |   |-- Staffs.cshtml
+|   |   |   |   |-- Students.cshtml
+|   |   |   |   \-- TimeSlots.cshtml
+|   |   |   |-- Shared/
+|   |   |   |   |-- _Layout.cshtml
+|   |   |   |   |-- _Layout.cshtml.css
+|   |   |   |   |-- _ValidationScriptsPartial.cshtml
+|   |   |   |   \-- Error.cshtml
+|   |   |   |-- Student/
+|   |   |   |   |-- Announcements.cshtml
+|   |   |   |   |-- CreateGroup.cshtml
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   |-- Payments.cshtml
+|   |   |   |   |-- Profile.cshtml
+|   |   |   |   |-- Reports.cshtml
+|   |   |   |   |-- ReserveRoom.cshtml
+|   |   |   |   \-- ResidenceInfo.cshtml
+|   |   |   |-- Supervisor/
+|   |   |   |   |-- Announcements.cshtml
+|   |   |   |   |-- BlockRooms.cshtml
+|   |   |   |   |-- Groups.cshtml
+|   |   |   |   |-- Index.cshtml
+|   |   |   |   |-- Payments.cshtml
+|   |   |   |   |-- Profile.cshtml
+|   |   |   |   |-- Reports.cshtml
+|   |   |   |   |-- Students.cshtml
+|   |   |   |   \-- TimeSlots.cshtml
+|   |   |   |-- _ViewImports.cshtml
+|   |   |   \-- _ViewStart.cshtml
+|   |   |-- wwwroot/
+|   |   |   |-- css/
+|   |   |   |   \-- site.css
+|   |   |   |-- js/
+|   |   |   |   \-- site.js
+|   |   |   |-- lib/
+|   |   |   |   |-- bootstrap/
+|   |   |   |   |   |-- dist/
+|   |   |   |   |   |   |-- css/
+|   |   |   |   |   |   |   |-- bootstrap.css
+|   |   |   |   |   |   |   |-- bootstrap.css.map
+|   |   |   |   |   |   |   |-- bootstrap.min.css
+|   |   |   |   |   |   |   |-- bootstrap.min.css.map
+|   |   |   |   |   |   |   |-- bootstrap.rtl.css
+|   |   |   |   |   |   |   |-- bootstrap.rtl.css.map
+|   |   |   |   |   |   |   |-- bootstrap.rtl.min.css
+|   |   |   |   |   |   |   |-- bootstrap.rtl.min.css.map
+|   |   |   |   |   |   |   |-- bootstrap-grid.css
+|   |   |   |   |   |   |   |-- bootstrap-grid.css.map
+|   |   |   |   |   |   |   |-- bootstrap-grid.min.css
+|   |   |   |   |   |   |   |-- bootstrap-grid.min.css.map
+|   |   |   |   |   |   |   |-- bootstrap-grid.rtl.css
+|   |   |   |   |   |   |   |-- bootstrap-grid.rtl.css.map
+|   |   |   |   |   |   |   |-- bootstrap-grid.rtl.min.css
+|   |   |   |   |   |   |   |-- bootstrap-grid.rtl.min.css.map
+|   |   |   |   |   |   |   |-- bootstrap-reboot.css
+|   |   |   |   |   |   |   |-- bootstrap-reboot.css.map
+|   |   |   |   |   |   |   |-- bootstrap-reboot.min.css
+|   |   |   |   |   |   |   |-- bootstrap-reboot.min.css.map
+|   |   |   |   |   |   |   |-- bootstrap-reboot.rtl.css
+|   |   |   |   |   |   |   |-- bootstrap-reboot.rtl.css.map
+|   |   |   |   |   |   |   |-- bootstrap-reboot.rtl.min.css
+|   |   |   |   |   |   |   |-- bootstrap-reboot.rtl.min.css.map
+|   |   |   |   |   |   |   |-- bootstrap-utilities.css
+|   |   |   |   |   |   |   |-- bootstrap-utilities.css.map
+|   |   |   |   |   |   |   |-- bootstrap-utilities.min.css
+|   |   |   |   |   |   |   |-- bootstrap-utilities.min.css.map
+|   |   |   |   |   |   |   |-- bootstrap-utilities.rtl.css
+|   |   |   |   |   |   |   |-- bootstrap-utilities.rtl.css.map
+|   |   |   |   |   |   |   |-- bootstrap-utilities.rtl.min.css
+|   |   |   |   |   |   |   \-- bootstrap-utilities.rtl.min.css.map
+|   |   |   |   |   |   \-- js/
+|   |   |   |   |   |       |-- bootstrap.bundle.js
+|   |   |   |   |   |       |-- bootstrap.bundle.js.map
+|   |   |   |   |   |       |-- bootstrap.bundle.min.js
+|   |   |   |   |   |       |-- bootstrap.bundle.min.js.map
+|   |   |   |   |   |       |-- bootstrap.esm.js
+|   |   |   |   |   |       |-- bootstrap.esm.js.map
+|   |   |   |   |   |       |-- bootstrap.esm.min.js
+|   |   |   |   |   |       |-- bootstrap.esm.min.js.map
+|   |   |   |   |   |       |-- bootstrap.js
+|   |   |   |   |   |       |-- bootstrap.js.map
+|   |   |   |   |   |       |-- bootstrap.min.js
+|   |   |   |   |   |       \-- bootstrap.min.js.map
+|   |   |   |   |   \-- LICENSE
+|   |   |   |   |-- jquery/
+|   |   |   |   |   |-- dist/
+|   |   |   |   |   |   |-- jquery.js
+|   |   |   |   |   |   |-- jquery.min.js
+|   |   |   |   |   |   |-- jquery.min.map
+|   |   |   |   |   |   |-- jquery.slim.js
+|   |   |   |   |   |   |-- jquery.slim.min.js
+|   |   |   |   |   |   \-- jquery.slim.min.map
+|   |   |   |   |   \-- LICENSE.txt
+|   |   |   |   |-- jquery-validation/
+|   |   |   |   |   |-- dist/
+|   |   |   |   |   |   |-- additional-methods.js
+|   |   |   |   |   |   |-- additional-methods.min.js
+|   |   |   |   |   |   |-- jquery.validate.js
+|   |   |   |   |   |   \-- jquery.validate.min.js
+|   |   |   |   |   \-- LICENSE.md
+|   |   |   |   \-- jquery-validation-unobtrusive/
+|   |   |   |       |-- dist/
+|   |   |   |       |   |-- jquery.validate.unobtrusive.js
+|   |   |   |       |   \-- jquery.validate.unobtrusive.min.js
+|   |   |   |       \-- LICENSE.txt
+|   |   |   \-- favicon.ico
+|   |   |-- appsettings.Development.json
+|   |   |-- appsettings.json
+|   |   |-- DormManagerSystem.csproj
+|   |   |-- DormManagerSystem.csproj.user
+|   |   \-- Program.cs
+|   \-- DormManagerSystem.slnx
+|-- ALL.docx
+|-- ALL.pdf
+|-- Dorm_Table.sql
+|-- EER_final_DB.pdf
+|-- EER_final_DB.vsdx
+|-- Function_dorm_get_tution.sql
+|-- Function_GET_EMPTYROOM_DORM.sql
+|-- Insert_Data_Table.sql
+|-- Readme.md
+|-- Roles.sql
+|-- Stored_Procedure_notify_unpaid_with_cursor.sql
+|-- Stored_Procedure_reserve_Group.sql
+|-- Tables_DB_Proj.pdf
+|-- Tables_DB_Proj.vsdx
+|-- Trigger.sql
+|-- VIEW_STUDENT_PARENT.sql
+|-- گزارش کار شرح پروژه دیتابیس.docx
+\-- گزارش کار شرح پروژه دیتابیس.pdf

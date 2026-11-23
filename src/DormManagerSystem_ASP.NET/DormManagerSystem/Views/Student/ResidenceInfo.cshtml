@@ -1,0 +1,290 @@
+﻿@{
+    ViewData["Title"] = "اطلاعات سکونت";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلاعات سکونت | دانشجو</title>
+    <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0
+            }
+
+            body {
+                font-family: Tahoma,sans-serif;
+                background: #f4f6f9
+            }
+
+            .top-bar {
+                background: #fff;
+                border-bottom: 1px solid #ddd;
+                padding: .5rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: .75rem
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                background: #6f42c1;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold
+            }
+
+            .user-details small {
+                display: block;
+                color: #666
+            }
+
+            .user-details strong {
+                font-size: .95rem
+            }
+
+            .logout-btn {
+                background: #dc3545;
+                color: white;
+                border: none;
+                padding: .4rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row-reverse;
+                min-height: calc(100vh - 50px)
+            }
+
+            .sidebar {
+                width: 250px;
+                background: #fff;
+                border-left: 1px solid #ddd;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem
+            }
+
+                .sidebar h2 {
+                    text-align: center;
+                    font-size: 1.3rem;
+                    color: #6f42c1;
+                    margin-bottom: .5rem
+                }
+
+                .sidebar a {
+                    display: block;
+                    background: #6f42c1;
+                    color: white;
+                    text-decoration: none;
+                    padding: .6rem 1rem;
+                    border-radius: 6px;
+                    text-align: center;
+                    transition: background .2s
+                }
+
+                    .sidebar a:hover {
+                        background: #59339d
+                    }
+
+            .main {
+                flex: 1;
+                padding: 2rem
+            }
+
+            .card {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 10px rgba(0,0,0,.08);
+                padding: 1.5rem;
+                margin-bottom: 1.5rem
+            }
+
+                .card h3 {
+                    margin-bottom: 1rem;
+                    color: #4a3a6e
+                }
+
+            .info-row {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: .5rem
+            }
+
+            .info-item {
+                flex: 1 1 200px;
+                padding: .5rem;
+                background: #f8f5ff;
+                border-radius: 8px
+            }
+
+                .info-item label {
+                    font-weight: bold;
+                    color: #6f42c1;
+                    display: block;
+                    margin-bottom: .2rem
+                }
+
+            .btn {
+                padding: .5rem 1rem;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                text-decoration: none;
+                display: inline-block
+            }
+
+            .btn-warning {
+                background: #ffc107;
+                color: #333
+            }
+
+            .btn-danger {
+                background: #dc3545;
+                color: white
+            }
+
+            .btn-primary {
+                background: #6f42c1;
+                color: white
+            }
+
+            .btn:disabled {
+                opacity: 0.5;
+                pointer-events: none
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 1rem
+            }
+
+            th, td {
+                padding: .6rem;
+                border-bottom: 1px solid #eee;
+                text-align: right
+            }
+
+            th {
+                background: #f8f8f8
+            }
+
+            .badge {
+                display: inline-block;
+                padding: .2rem .8rem;
+                border-radius: 20px;
+                font-size: .8rem;
+                background: #6f42c1;
+                color: white
+            }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="user-avatar">@(ViewBag.StudentFirstName?.ToString()?.Substring(0, 1))</div>
+            <div class="user-details"><strong>@ViewBag.StudentFirstName @ViewBag.StudentLastName</strong><small>شماره: @ViewBag.StudentID</small></div>
+        </div>
+        <a href="/Auth/Logout" class="logout-btn">خروج</a>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>پنل دانشجو</h2>
+            <a href="/Student/Index"> داشبورد</a>
+            <a href="/Student/CreateGroup"> تشکیل گروه</a>
+            <a href="/Student/ReserveRoom"> رزرو اتاق</a>
+            <a href="/Student/Payments"> پرداخت‌ها</a>
+            <a href="/Student/Reports"> گزارش‌ها</a>
+            <a href="/Student/Profile"> پروفایل</a>
+            <a href="/Student/ResidenceInfo" style="background:#59339d;"> اطلاعات سکونت</a>
+            <a href="/Student/Announcements"> اطلاعیه‌ها</a>
+        </div>
+        <div class="main">
+            @if (TempData["Msg"] != null)
+            {
+                <div style="background:#d4edda;color:#155724;padding:.5rem;border-radius:4px;margin-bottom:1rem">@TempData["Msg"]</div>
+            }
+            @if (TempData["Err"] != null)
+            {
+                <div style="background:#f8d7da;color:#721c24;padding:.5rem;border-radius:4px;margin-bottom:1rem">@TempData["Err"]</div>
+            }
+            @if (ViewBag.Message != null)
+            {
+                <p>@ViewBag.Message</p>
+            }
+            else
+            {
+                var res = ViewBag.Residence;
+                var roommates = ViewBag.Roommates as IEnumerable<dynamic>;
+
+                <div class="card">
+                    <h3>🏠 اطلاعات گروه و سکونت</h3>
+                    <div class="info-row">
+                        <div class="info-item"><label>نوع گروه:</label> @(res.GroupType == "M" ? "پسرانه" : "دخترانه")</div>
+                        <div class="info-item"><label>اتاق:</label> @(res.NameRoom ?? "تعیین نشده")</div>
+                        <div class="info-item"><label>بلوک:</label> @res.BlockName</div>
+                        <div class="info-item"><label>خوابگاه:</label> @res.DormitoryName</div>
+                        <div class="info-item"><label>نقش شما:</label> <span class="badge">@(res.IsGroupLeader == true ? "سرگروه" : "عضو")</span></div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>👥 هم‌اتاقی‌ها</h3>
+                    <table>
+                        <thead><tr><th>شماره</th><th>نام</th><th>نقش</th></tr></thead>
+                        <tbody>
+                            @foreach (var m in roommates)
+                            {
+                                <tr>
+                                    <td>@m.StudentID</td>
+                                    <td>@m.FirstName @m.LastName</td>
+                                    <td>@(m.IsGroupLeader == true ? "سرگروه" : "عضو")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div style="display:flex;gap:1rem;flex-wrap:wrap">
+                    @if (res.IsGroupLeader == true && res.RoomID != null)
+                    {
+                        <form method="post" action="/Student/UnreserveRoom">
+                            <button type="submit" class="btn btn-warning">🏨 لغو رزرو اتاق</button>
+                        </form>
+                    }
+
+                    <form method="post" action="/Student/LeaveGroup">
+                        <button type="submit" class="btn btn-danger">🚪 خروج از گروه</button>
+                    </form>
+
+                    @if (res.IsGroupLeader == true)
+                    {
+                        <form method="post" action="/Student/DeleteGroup">
+                            <button type="submit" class="btn btn-danger">🗑️ حذف گروه</button>
+                        </form>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,252 @@
+﻿@model DormWeb.Models.GuardInfoViewModel
+@{
+    ViewData["Title"] = "اطلاعات فردی";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اطلاعات فردی | پنل نگهبان</title>
+    <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: Tahoma, sans-serif;
+                background: #f4f6f9;
+            }
+
+            .top-bar {
+                background: #fff;
+                border-bottom: 1px solid #ddd;
+                padding: .5rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: .75rem;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                background: #007bff;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+
+            .user-details small {
+                display: block;
+                color: #666;
+                font-size: .75rem;
+            }
+
+            .user-details strong {
+                font-size: .95rem;
+            }
+
+            .logout-btn {
+                background: #dc3545;
+                color: white;
+                border: none;
+                padding: .4rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row-reverse;
+                min-height: calc(100vh - 50px);
+            }
+
+            .sidebar {
+                width: 250px;
+                background: #fff;
+                border-left: 1px solid #ddd;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+            }
+
+                .sidebar h2 {
+                    text-align: center;
+                    font-size: 1.3rem;
+                    margin-bottom: .5rem;
+                    color: #333;
+                }
+
+                .sidebar a {
+                    display: block;
+                    background: #007bff;
+                    color: white;
+                    text-decoration: none;
+                    padding: .6rem 1rem;
+                    border-radius: 6px;
+                    text-align: center;
+                    transition: background .2s;
+                }
+
+                    .sidebar a:hover {
+                        background: #0056b3;
+                    }
+
+            .main {
+                flex: 1;
+                padding: 2rem;
+                display: flex;
+                justify-content: center;
+            }
+
+            .info-card {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 15px rgba(0,0,0,.08);
+                padding: 2rem;
+                max-width: 700px;
+                width: 100%;
+            }
+
+                .info-card h2 {
+                    margin-bottom: 1.5rem;
+                }
+
+            .field-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .field {
+                flex: 1 1 280px;
+            }
+
+                .field label {
+                    display: block;
+                    font-weight: bold;
+                    margin-bottom: .3rem;
+                }
+
+                .field input {
+                    width: 100%;
+                    padding: .5rem;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    font-family: inherit;
+                }
+
+            .non-editable {
+                background: #e9ecef;
+            }
+
+            .btn {
+                width: 100%;
+                padding: .7rem;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-weight: bold;
+                cursor: pointer;
+                margin-top: 1rem;
+            }
+
+                .btn:hover {
+                    background: #0056b3;
+                }
+
+            .alert-success {
+                background: #d4edda;
+                color: #155724;
+                padding: .5rem;
+                border-radius: 4px;
+                margin-bottom: 1rem;
+                text-align: center;
+            }
+
+            .salary-toggle {
+                cursor: pointer;
+                color: #007bff;
+            }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="user-avatar">@(Model?.FirstName?.Substring(0, 1) ?? "ح")</div>
+            <div class="user-details">
+                <strong>@Model?.FirstName @Model?.LastName</strong>
+                <small>کد پرسنلی: @Model?.PersonnelID | @Model?.UserRole</small>
+            </div>
+        </div>
+        <a href="/Auth/Logout" class="logout-btn">خروج</a>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>پنل نگهبان</h2>
+            <a href="/Guard/Index">لیست دانشجویان</a>
+            <a href="/Guard/TrafficReport">گزارش تردد</a>
+            <a href="/Guard/PersonalInfo" style="background:#0056b3;">اطلاعات فردی</a>
+        </div>
+        <div class="main">
+            <div class="info-card">
+                <h2>اطلاعات فردی</h2>
+                @if (!string.IsNullOrEmpty(ViewBag.SuccessMessage))
+                {
+                    <div class="alert-success">@ViewBag.SuccessMessage</div>
+                }
+                <form method="post">
+                    <div class="field-group">
+                        <div class="field"><label>کد پرسنلی</label><input class="non-editable" value="@Model?.PersonnelID" readonly></div>
+                        <div class="field"><label>نام</label><input class="non-editable" value="@Model?.FirstName" readonly></div>
+                        <div class="field"><label>نام خانوادگی</label><input class="non-editable" value="@Model?.LastName" readonly></div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field"><label>کد ملی</label><input class="non-editable" value="@Model?.NationalID" readonly></div>
+                        <div class="field"><label>جنسیت</label><input class="non-editable" value="@(Model?.Gender == "M" ? "مرد" : "زن")" readonly></div>
+                        <div class="field"><label>تاریخ تولد</label><input class="non-editable" value="@(Model?.BirthDate.ToString("yyyy/MM/dd"))" readonly></div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field"><label>نقش</label><input class="non-editable" value="@Model?.UserRole" readonly></div>
+                        <div class="field"><label>تاریخ شروع به کار</label><input class="non-editable" value="@(Model?.EmploymentStartDate.ToString("yyyy/MM/dd"))" readonly></div>
+                        
+                    </div>
+                    <div class="field-group">
+                        <div class="field"><label>شماره حساب بانکی</label><input class="non-editable" value="@Model?.BankAccountNumber" readonly></div>
+                        <div class="field"><label>شماره موبایل</label><input type="text" name="MobilePhoneNumber" value="@Model?.MobilePhoneNumber"></div>
+                        <div class="field"><label>ایمیل سازمانی</label><input type="email" name="OrganizationalEmail" value="@Model?.OrganizationalEmail"></div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field"><label>شیفت کاری</label><input type="text" name="WorkShift" value="@Model?.WorkShift"></div>
+                        <div class="field"><label>محل کار</label><input type="text" name="Workplace" value="@Model?.Workplace"></div>
+                    </div>
+                    <button type="submit" class="btn">ذخیره تغییرات</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+            function toggleSalary() {
+                var field = document.getElementById('salaryField');
+                field.type = field.type === 'password' ? 'text' : 'password';
+            }
+    </script>
+</body>
+</html>

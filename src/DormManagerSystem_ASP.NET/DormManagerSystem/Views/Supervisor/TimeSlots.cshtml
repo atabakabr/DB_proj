@@ -1,0 +1,325 @@
+﻿@model IEnumerable<DormWeb.Models.TimeSlotItem>
+@{
+    ViewData["Title"] = "بازه‌های رزرو";
+    Layout = null;
+    var prevDisabled = (int)ViewBag.Page <= 1 ? "style='pointer-events: none; opacity: 0.5;'" : "";
+    var nextDisabled = (int)ViewBag.Page >= (int)ViewBag.TotalPages ? "style='pointer-events: none; opacity: 0.5;'" : "";
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بازه‌های رزرو | سرپرست</title>
+    <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0
+            }
+
+            body {
+                font-family: Tahoma,sans-serif;
+                background: #f4f6f9
+            }
+
+            .top-bar {
+                background: #fff;
+                border-bottom: 1px solid #ddd;
+                padding: .5rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: .75rem
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                background: #007bff;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 1.1rem
+            }
+
+            .user-details small {
+                display: block;
+                color: #666;
+                font-size: .75rem
+            }
+
+            .user-details strong {
+                font-size: .95rem
+            }
+
+            .logout-btn {
+                background: #dc3545;
+                color: white;
+                border: none;
+                padding: .4rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row-reverse;
+                min-height: calc(100vh - 50px)
+            }
+
+            .sidebar {
+                width: 250px;
+                background: #fff;
+                border-left: 1px solid #ddd;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem
+            }
+
+                .sidebar h2 {
+                    text-align: center;
+                    font-size: 1.3rem;
+                    margin-bottom: .5rem;
+                    color: #333
+                }
+
+                .sidebar a {
+                    display: block;
+                    background: #007bff;
+                    color: white;
+                    text-decoration: none;
+                    padding: .6rem 1rem;
+                    border-radius: 6px;
+                    text-align: center
+                }
+
+                    .sidebar a:hover {
+                        background: #0056b3
+                    }
+
+            .main {
+                flex: 1;
+                padding: 2rem
+            }
+
+            .card {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 10px rgba(0,0,0,.08);
+                padding: 1.5rem;
+                margin-bottom: 1.5rem
+            }
+
+            .btn {
+                padding: .5rem 1rem;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+                text-decoration: none
+            }
+
+            .btn-primary {
+                background: #007bff;
+                color: white
+            }
+
+            .btn-success {
+                background: #28a745;
+                color: white
+            }
+
+            .btn-secondary {
+                background: #6c757d;
+                color: white
+            }
+
+            .btn-warning {
+                background: #ffc107;
+                color: #333
+            }
+
+            .btn-danger {
+                background: #dc3545;
+                color: white
+            }
+
+            .form-row {
+                display: flex;
+                gap: 1rem;
+                flex-wrap: wrap;
+                align-items: flex-end
+            }
+
+            .form-group {
+                flex: 1 1 200px
+            }
+
+                .form-group label {
+                    display: block;
+                    font-weight: bold;
+                    margin-bottom: .3rem
+                }
+
+                .form-group input, .form-group select {
+                    width: 100%;
+                    padding: .5rem;
+                    border: 1px solid #ccc;
+                    border-radius: 4px
+                }
+
+            table {
+                width: 100%;
+                border-collapse: collapse
+            }
+
+            th, td {
+                padding: .6rem;
+                border-bottom: 1px solid #eee;
+                text-align: right
+            }
+
+            th {
+                background: #f8f8f8
+            }
+
+            .badge-active {
+                background: #d4edda;
+                color: #155724;
+                padding: .2rem .6rem;
+                border-radius: 20px;
+                font-size: .8rem
+            }
+
+            .badge-inactive {
+                background: #f8d7da;
+                color: #721c24;
+                padding: .2rem .6rem;
+                border-radius: 20px;
+                font-size: .8rem
+            }
+
+            .pagination {
+                display: flex;
+                justify-content: center;
+                gap: .5rem;
+                margin-top: 1rem
+            }
+
+                .pagination a, .pagination span {
+                    padding: .4rem .8rem;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    text-decoration: none;
+                    color: #333
+                }
+
+                    .pagination a:hover {
+                        background: #007bff;
+                        color: white
+                    }
+
+                .pagination .current {
+                    background: #007bff;
+                    color: white
+                }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="user-avatar">@ViewBag.GuardFirstName?.ToString()?.Substring(0, 1)</div>
+            <div class="user-details"><strong>@ViewBag.GuardFirstName @ViewBag.GuardLastName</strong><small>کد: @ViewBag.GuardPersonnelID | @ViewBag.GuardRole</small></div>
+        </div>
+        <a href="/Auth/Logout" class="logout-btn">خروج</a>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>پنل سرپرست</h2>
+            <a href="/Supervisor/Index"> داشبورد</a>
+            <a href="/Supervisor/Students"> دانشجویان</a>
+            <a href="/Supervisor/Payments"> پرداخت‌ها</a>
+            <a href="/Supervisor/Groups"> گروه‌ها</a>
+            <a href="/Supervisor/TimeSlots" style="background:#0056b3;"> بازه‌های رزرو</a>
+            <a href="/Supervisor/Announcements"> اطلاعیه‌ها</a>
+            <a href="/Supervisor/Reports"> گزارش‌ها</a>
+            <a href="/Supervisor/Profile"> پروفایل</a>
+        </div>
+        <div class="main">
+            @if (TempData["Msg"] != null)
+            {
+                <div style="background:#d4edda;color:#155724;padding:.5rem;border-radius:4px;margin-bottom:1rem">@TempData["Msg"]</div>
+            }
+
+            <div class="card">
+                <h3>➕ ثبت بازهٔ جدید</h3>
+                <form method="post" action="/Supervisor/AddTimeSlot">
+                    <div class="form-row">
+                        <div class="form-group"><label>بلوک</label><select name="BlockID" required>@foreach(var b in (ViewBag.Blocks as IEnumerable<DormWeb.Models.BlockItem>) ?? new List<DormWeb.Models.BlockItem>()){
+                            <option value="@b.BlockID">@b.BName (@b.DormitoryName)</option>
+                        }
+                    </select></div>
+                    <div class="form-group"><label>شروع ثبت‌نام</label><input type="date" name="GroupingStartDate" required></div>
+                    <div class="form-group"><label>شروع انتخاب</label><input type="date" name="SelectionStartDate" required></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group"><label>پایان انتخاب</label><input type="date" name="SelectionEndDate" required></div>
+                    <div class="form-group"><label>شهریه (تومان)</label><input type="number" name="Tuition" required></div>
+                    <div class="form-group"><button type="submit" class="btn btn-success">ثبت</button></div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>📅 بازه‌های ثبت‌شده</h3>
+            <table>
+                <thead><tr><th>کد</th><th>بلوک</th><th>شروع ثبت‌نام</th><th>شروع انتخاب</th><th>پایان انتخاب</th><th>شهریه</th><th>وضعیت</th><th></th></tr></thead>
+                <tbody>
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var t in Model) {
+                        <tr><td>@t.TID</td><td>@t.BlockName</td><td>@t.GroupingStartDate.ToString("yyyy/MM/dd")</td><td>@t.SelectionStartDate.ToString("yyyy/MM/dd")</td><td>@t.SelectionEndDate.ToString("yyyy/MM/dd")</td><td>@t.Tuition.ToString("N0")</td><td><span class="@(t.IsActive ? "badge-active" : "badge-inactive")">@(t.IsActive ? "فعال" : "غیرفعال")</span></td><td><form method="post" action="/Supervisor/ToggleTimeSlot" style="display:inline"><input type="hidden" name="id" value="@t.TID"><button class="btn btn-warning btn-sm">@(t.IsActive ? "غیرفعال" : "فعال")</button></form><form method="post" action="/Supervisor/DeleteTimeSlot" style="display:inline;margin-right:.25rem" onsubmit="return confirm('حذف شود؟')"><input type="hidden" name="id" value="@t.TID"><button class="btn btn-danger btn-sm">🗑️</button></form></td></tr>
+                    }
+                }
+                    else
+                {
+                    <tr><td colspan="8" style="text-align:center;padding:2rem;">بازه‌ای یافت نشد.</td></tr>
+                }
+            </tbody>
+        </table>
+        @if (ViewBag.TotalPages > 1)
+        {
+            <div class="pagination">
+                <a href="/Supervisor/TimeSlots?page=@(ViewBag.Page - 1)" @Html.Raw(prevDisabled)>قبلی</a>
+                @for (int i = 1; i <= ViewBag.TotalPages; i++)
+                {
+                    if (i == ViewBag.Page)
+                    {
+                        <span class="current">@i</span>
+                    }
+                    else
+                    {
+
+                        <a href="/Supervisor/TimeSlots?page=@i">@i</a>
+                    }
+                }
+                <a href="/Supervisor/TimeSlots?page=@(ViewBag.Page + 1)" @Html.Raw(nextDisabled)>بعدی</a>
+            </div>
+            <div style="text-align:center;margin-top:.5rem;color:#888;">نمایش @(Model?.Count() ?? 0) از @ViewBag.TotalCount</div>
+        }
+    </div>
+</div>
+</div>
+</body>
+</html>

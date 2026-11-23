@@ -1,0 +1,312 @@
+﻿@model IEnumerable<DormWeb.Models.TrafficRecord>
+@{
+    ViewData["Title"] = "گزارش تردد";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>گزارش تردد | پنل نگهبان</title>
+    <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: Tahoma, sans-serif;
+                background: #f4f6f9;
+            }
+
+            .top-bar {
+                background: #fff;
+                border-bottom: 1px solid #ddd;
+                padding: .5rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: .75rem;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                background: #007bff;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+
+            .user-details small {
+                display: block;
+                color: #666;
+                font-size: .75rem;
+            }
+
+            .user-details strong {
+                font-size: .95rem;
+            }
+
+            .logout-btn {
+                background: #dc3545;
+                color: white;
+                border: none;
+                padding: .4rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row-reverse;
+                min-height: calc(100vh - 50px);
+            }
+
+            .sidebar {
+                width: 250px;
+                background: #fff;
+                border-left: 1px solid #ddd;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+            }
+
+                .sidebar h2 {
+                    text-align: center;
+                    font-size: 1.3rem;
+                    margin-bottom: .5rem;
+                    color: #333;
+                }
+
+                .sidebar a {
+                    display: block;
+                    background: #007bff;
+                    color: white;
+                    text-decoration: none;
+                    padding: .6rem 1rem;
+                    border-radius: 6px;
+                    text-align: center;
+                    transition: background .2s;
+                }
+
+                    .sidebar a:hover {
+                        background: #0056b3;
+                    }
+
+            .main {
+                flex: 1;
+                padding: 2rem;
+            }
+
+            .list-card {
+                background: white;
+                border-radius: 8px;
+                box-shadow: 0 2px 10px rgba(0,0,0,.08);
+                padding: 1rem;
+            }
+
+            .filter-form {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: 1.5rem;
+                align-items: flex-end;
+            }
+
+            .filter-group {
+                display: flex;
+                flex-direction: column;
+                gap: .3rem;
+            }
+
+                .filter-group label {
+                    font-size: .85rem;
+                    font-weight: bold;
+                    color: #333;
+                }
+
+                .filter-group input, .filter-group select {
+                    padding: .5rem;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    font-family: inherit;
+                    min-width: 130px;
+                }
+
+            .btn-search {
+                background: #007bff;
+                color: white;
+                border: none;
+                padding: .5rem 1.2rem;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .btn-reset {
+                background: #6c757d;
+                color: white;
+                border: none;
+                padding: .5rem 1.2rem;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+                display: inline-block;
+                text-align: center;
+            }
+
+            .table-container {
+                max-height: 550px;
+                overflow-y: auto;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
+
+            th, td {
+                padding: .6rem;
+                border-bottom: 1px solid #eee;
+                text-align: right;
+            }
+
+            th {
+                background: #f8f8f8;
+                position: sticky;
+                top: 0;
+                font-weight: bold;
+            }
+
+            .no-data {
+                text-align: center;
+                padding: 2rem;
+                color: #888;
+            }
+
+            .badge-access {
+                display: inline-block;
+                padding: .2rem .6rem;
+                border-radius: 20px;
+                font-size: .8rem;
+                background: #e9ecef;
+            }
+
+                .badge-access.entry {
+                    background: #d4edda;
+                    color: #155724;
+                }
+
+                .badge-access.exit {
+                    background: #f8d7da;
+                    color: #721c24;
+                }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="user-avatar">@ViewBag.GuardFirstName?.ToString()?.Substring(0, 1)</div>
+            <div class="user-details">
+                <strong>@ViewBag.GuardFirstName @ViewBag.GuardLastName</strong>
+                <small>کد پرسنلی: @ViewBag.GuardPersonnelID | @ViewBag.GuardRole</small>
+            </div>
+        </div>
+        <a href="/Auth/Logout" class="logout-btn">خروج</a>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>پنل نگهبان</h2>
+            <a href="/Guard/Index">لیست دانشجویان</a>
+            <a href="/Guard/TrafficReport" style="background:#0056b3;">گزارش تردد</a>
+            <a href="/Guard/PersonalInfo">اطلاعات فردی</a>
+        </div>
+        <div class="main">
+            <h2>گزارش تردد دانشجویان</h2>
+            <div class="list-card">
+                <form method="get" class="filter-form">
+                    <div class="filter-group">
+                        <label>کد دانشجویی</label>
+                        <input type="number" name="studentId" value="@ViewBag.StudentIdFilter" placeholder="مثال: 12345">
+                    </div>
+                    <div class="filter-group">
+                        <label>از تاریخ</label>
+                        <input type="date" name="startDate" value="@ViewBag.StartDateFilter">
+                    </div>
+                    <div class="filter-group">
+                        <label>تا تاریخ</label>
+                        <input type="date" name="endDate" value="@ViewBag.EndDateFilter">
+                    </div>
+                    <div class="filter-group">
+                        <label>از ساعت</label>
+                        <input type="time" name="startTime" value="@ViewBag.StartTimeFilter">
+                    </div>
+                    <div class="filter-group">
+                        <label>تا ساعت</label>
+                        <input type="time" name="endTime" value="@ViewBag.EndTimeFilter">
+                    </div>
+                    <div class="filter-group">
+                        <button type="submit" class="btn-search">جستجو</button>
+                    </div>
+                    <div class="filter-group">
+                        <a href="/Guard/TrafficReport" class="btn-reset">حذف فیلتر</a>
+                    </div>
+                </form>
+                @if (ViewBag.InfoMessage != null)
+                {
+                    <p style="margin-bottom:1rem; color:#555;">@ViewBag.InfoMessage</p>
+                }
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>شناسه</th>
+                                <th>کد دانشجویی</th>
+                                <th>نام دانشجو</th>
+                                <th>نوع تردد</th>
+                                <th>تاریخ</th>
+                                <th>زمان</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model != null && Model.Any())
+                            {
+                                @foreach (var r in Model)
+                                {
+                                    string accessClass = r.AccessType == "ورود" ? "entry" : "exit";
+                                    <tr>
+                                        <td>@r.AID</td>
+                                        <td>@r.StudentID</td>
+                                        <td>@r.FullName</td>
+                                        <td><span class="badge-access @accessClass">@r.AccessType</span></td>
+                                        <td>@(r.AccessDate?.ToString("yyyy/MM/dd"))</td>
+                                        <td>@r.AccessTime?.ToString(@"hh\:mm\:ss")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr><td colspan="6" class="no-data">هیچ رکورد ترددی یافت نشد</td></tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

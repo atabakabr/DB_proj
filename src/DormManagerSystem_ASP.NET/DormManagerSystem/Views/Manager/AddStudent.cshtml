@@ -1,0 +1,302 @@
+﻿@model DormWeb.Models.StudentDetail
+@{
+    ViewData["Title"] = "افزودن دانشجو";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>افزودن دانشجو | پنل مدیر</title>
+    <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                font-family: Tahoma, sans-serif;
+                background: #f4f6f9;
+            }
+
+            .top-bar {
+                background: #fff;
+                border-bottom: 1px solid #ddd;
+                padding: .5rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: .75rem;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                background: #007bff;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 1.1rem;
+            }
+
+            .user-details small {
+                display: block;
+                color: #666;
+                font-size: .75rem;
+            }
+
+            .user-details strong {
+                font-size: .95rem;
+            }
+
+            .logout-btn {
+                background: #dc3545;
+                color: white;
+                border: none;
+                padding: .4rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none;
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row-reverse;
+                min-height: calc(100vh - 50px);
+            }
+
+            .sidebar {
+                width: 250px;
+                background: #fff;
+                border-left: 1px solid #ddd;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+            }
+
+                .sidebar h2 {
+                    text-align: center;
+                    font-size: 1.3rem;
+                    margin-bottom: .5rem;
+                    color: #333;
+                }
+
+                .sidebar a {
+                    display: block;
+                    background: #007bff;
+                    color: white;
+                    text-decoration: none;
+                    padding: .6rem 1rem;
+                    border-radius: 6px;
+                    text-align: center;
+                    transition: background .2s;
+                }
+
+                    .sidebar a:hover {
+                        background: #0056b3;
+                    }
+
+            .main {
+                flex: 1;
+                padding: 2rem;
+            }
+
+            .form-card {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 15px rgba(0,0,0,.08);
+                padding: 2rem;
+            }
+
+            .field-group {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .field {
+                flex: 1 1 250px;
+            }
+
+                .field label {
+                    display: block;
+                    font-weight: bold;
+                    margin-bottom: .3rem;
+                }
+
+                .field input, .field select {
+                    width: 100%;
+                    padding: .5rem;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    font-family: inherit;
+                }
+
+            .btn {
+                padding: .6rem 1.2rem;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold;
+            }
+
+            .btn-primary {
+                background: #007bff;
+                color: white;
+            }
+
+            .btn-success {
+                background: #28a745;
+                color: white;
+            }
+
+            .btn-secondary {
+                background: #6c757d;
+                color: white;
+            }
+
+            .alert-success {
+                background: #d4edda;
+                color: #155724;
+                padding: .5rem;
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            }
+
+            .alert-error {
+                background: #f8d7da;
+                color: #721c24;
+                padding: .5rem;
+                border-radius: 4px;
+                margin-bottom: 1rem;
+            }
+
+            .parent-section {
+                border: 1px dashed #ccc;
+                padding: 1rem;
+                border-radius: 8px;
+                margin-top: 1rem;
+            }
+
+            .parent-item {
+                background: #f8f9fa;
+                padding: .75rem;
+                border-radius: 6px;
+                margin-bottom: .5rem;
+            }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="user-avatar">@ViewBag.GuardFirstName?.ToString()?.Substring(0, 1)</div>
+            <div class="user-details">
+                <strong>@ViewBag.GuardFirstName @ViewBag.GuardLastName</strong>
+                <small>کد پرسنلی: @ViewBag.GuardPersonnelID | @ViewBag.GuardRole</small>
+            </div>
+        </div>
+        <a href="/Auth/Logout" class="logout-btn">خروج</a>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>پنل مدیر</h2>
+            <a href="/Manager/Index"> داشبورد</a>
+            <a href="/Manager/Students" style="background:#0056b3;"> دانشجویان</a>
+            <a href="/Manager/ReserveRoom"> رزرو اتاق</a>
+            <a href="/Manager/Dormitories"> خوابگاه‌ها</a>
+            <a href="/Manager/Blocks"> بلوک‌ها</a>
+            <a href="/Manager/Rooms"> اتاق‌ها</a>
+            <a href="/Manager/TimeSlots"> بازه‌های رزرو</a>
+            <a href="/Manager/Staffs"> کارکنان</a>
+            <a href="/Manager/Profile"> پروفایل</a>
+            <a href="/Manager/Announcements"> اطلاعیه‌ها</a>
+        </div>
+        <div class="main">
+            <h2>افزودن دانشجو</h2>
+            <a href="/Manager/Students" style="margin-bottom:1rem; display:inline-block;">⬅️ بازگشت به لیست</a>
+
+            @if (ViewBag.Success != null)
+            {
+                <div class="alert-success">@ViewBag.Success</div>
+            }
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert-error">@ViewBag.Error</div>
+            }
+
+            <div class="form-card">
+                <form method="post" id="studentForm">
+                    <h3>اطلاعات دانشجو</h3>
+                    <div class="field-group">
+                        <div class="field"><label>شماره دانشجویی</label><input type="number" name="StudentID" required></div>
+                        <div class="field"><label>نام</label><input type="text" name="FirstName" required></div>
+                        <div class="field"><label>نام خانوادگی</label><input type="text" name="LastName" required></div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field"><label>کد ملی</label><input type="text" name="NationalID" required></div>
+                        <div class="field"><label>رمز عبور</label><input type="text" name="Password" required></div>
+                        <div class="field"><label>جنسیت</label><select name="Gender"><option value="M">مرد</option><option value="F">زن</option></select></div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field"><label>تاریخ تولد</label><input type="date" name="BirthDate" required></div>
+                        <div class="field"><label>موبایل</label><input type="text" name="MobilePhoneNumber" required></div>
+                        <div class="field"><label>ایمیل</label><input type="email" name="OrganizationalEmail"></div>
+                    </div>
+                    <div class="field-group">
+                        <div class="field"><label>رشته</label><input type="text" name="Major" required></div>
+                        <div class="field"><label>مقطع</label><select name="AcademicDegree"><option value="BS">کارشناسی</option><option value="MS">کارشناسی ارشد</option><option value="PH">دکتری</option></select></div>
+                        <div class="field"><label>شماره اضطراری</label><input type="text" name="EmergencyContactNumber" required></div>
+                    </div>
+
+                    <h3 style="margin-top:1.5rem;">والدین / وابستگان <button type="button" onclick="addParent()" class="btn btn-success" style="margin-right:1rem;">➕ افزودن</button></h3>
+                    <div id="parentsContainer"></div>
+
+                    <button type="submit" class="btn btn-primary" style="margin-top:1rem; width:100%;">💾 ثبت دانشجو</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+            let parentIndex = 0;
+            function addParent() {
+                const container = document.getElementById('parentsContainer');
+                const html = `
+                    <div class="parent-section" id="parent-${parentIndex}">
+                        <div class="field-group">
+                            <div class="field"><label>نام</label><input type="text" name="Parents[${parentIndex}].FName" required></div>
+                            <div class="field"><label>نام خانوادگی</label><input type="text" name="Parents[${parentIndex}].LName" required></div>
+                            <div class="field"><label>کد ملی</label><input type="text" name="Parents[${parentIndex}].NationalID" required></div>
+                        </div>
+                        <div class="field-group">
+                            <div class="field"><label>شماره تماس</label><input type="text" name="Parents[${parentIndex}].PhoneNum" required></div>
+                            <div class="field"><label>استان</label><input type="text" name="Parents[${parentIndex}].Province"></div>
+                            <div class="field"><label>شهر</label><input type="text" name="Parents[${parentIndex}].City"></div>
+                        </div>
+                        <div class="field-group">
+                            <div class="field"><label>آدرس</label><input type="text" name="Parents[${parentIndex}].SpecAddress"></div>
+                            <div class="field"><label>کد پستی</label><input type="text" name="Parents[${parentIndex}].PostID"></div>
+                        </div>
+                        <button type="button" class="btn btn-danger" onclick="removeParent(${parentIndex})">🗑️ حذف</button>
+                    </div>`;
+                container.insertAdjacentHTML('beforeend', html);
+                parentIndex++;
+            }
+            function removeParent(index) {
+                document.getElementById('parent-' + index).remove();
+            }
+    </script>
+</body>
+</html>

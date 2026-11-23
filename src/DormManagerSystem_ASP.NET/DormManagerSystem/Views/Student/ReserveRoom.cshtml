@@ -1,0 +1,235 @@
+﻿@model IEnumerable<DormWeb.Models.RoomViewModel>
+@{
+    ViewData["Title"] = "رزرو اتاق";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رزرو اتاق | دانشجو</title>
+    <style>
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0
+            }
+
+            body {
+                font-family: Tahoma,sans-serif;
+                background: #f4f6f9
+            }
+
+            .top-bar {
+                background: #fff;
+                border-bottom: 1px solid #ddd;
+                padding: .5rem 1rem;
+                display: flex;
+                justify-content: space-between;
+                align-items: center
+            }
+
+            .user-info {
+                display: flex;
+                align-items: center;
+                gap: .75rem
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                background: #6f42c1;
+                color: white;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold
+            }
+
+            .user-details small {
+                display: block;
+                color: #666
+            }
+
+            .user-details strong {
+                font-size: .95rem
+            }
+
+            .logout-btn {
+                background: #dc3545;
+                color: white;
+                border: none;
+                padding: .4rem 1rem;
+                border-radius: 4px;
+                cursor: pointer;
+                text-decoration: none
+            }
+
+            .container {
+                display: flex;
+                flex-direction: row-reverse;
+                min-height: calc(100vh - 50px)
+            }
+
+            .sidebar {
+                width: 250px;
+                background: #fff;
+                border-left: 1px solid #ddd;
+                padding: 1.5rem 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: .5rem
+            }
+
+                .sidebar h2 {
+                    text-align: center;
+                    font-size: 1.3rem;
+                    color: #6f42c1;
+                    margin-bottom: .5rem
+                }
+
+                .sidebar a {
+                    display: block;
+                    background: #6f42c1;
+                    color: white;
+                    text-decoration: none;
+                    padding: .6rem 1rem;
+                    border-radius: 6px;
+                    text-align: center;
+                    transition: background .2s
+                }
+
+                    .sidebar a:hover {
+                        background: #59339d
+                    }
+
+            .main {
+                flex: 1;
+                padding: 2rem
+            }
+
+            .card {
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 2px 10px rgba(0,0,0,.08);
+                padding: 1.5rem;
+                margin-bottom: 1.5rem
+            }
+
+            .btn {
+                padding: .5rem 1rem;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                font-weight: bold
+            }
+
+            .btn-primary {
+                background: #6f42c1;
+                color: white
+            }
+
+            .btn-danger {
+                background: #dc3545;
+                color: white
+            }
+
+            .room-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill,minmax(240px,1fr));
+                gap: 1rem
+            }
+
+            .room-card {
+                background: linear-gradient(135deg,#f3e5f5,#e8daef);
+                border-radius: 10px;
+                padding: 1rem;
+                border-left: 4px solid #6f42c1
+            }
+
+                .room-card h4 {
+                    margin-bottom: .5rem;
+                    color: #6f42c1
+                }
+
+                .room-card p {
+                    margin: .2rem 0;
+                    font-size: .9rem;
+                    color: #555
+                }
+
+            .badge {
+                display: inline-block;
+                padding: .2rem .8rem;
+                border-radius: 20px;
+                font-size: .8rem;
+                background: #d4edda;
+                color: #155724;
+                margin-top: .5rem
+            }
+    </style>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="user-info">
+            <div class="user-avatar">@(ViewBag.StudentFirstName?.ToString()?.Substring(0, 1))</div>
+            <div class="user-details"><strong>@ViewBag.StudentFirstName @ViewBag.StudentLastName</strong><small>شماره: @ViewBag.StudentID</small></div>
+        </div>
+        <a href="/Auth/Logout" class="logout-btn">خروج</a>
+    </div>
+    <div class="container">
+        <div class="sidebar">
+            <h2>پنل دانشجو</h2>
+            <a href="/Student/Index"> داشبورد</a>
+            <a href="/Student/CreateGroup"> تشکیل گروه</a>
+            <a href="/Student/ReserveRoom" style="background:#59339d;"> رزرو اتاق</a>
+            <a href="/Student/Payments"> پرداخت‌ها</a>
+            <a href="/Student/Reports"> گزارش‌ها</a>
+            <a href="/Student/Profile"> پروفایل</a>
+            <a href="/Student/ResidenceInfo"> اطلاعات سکونت</a>
+            <a href="/Student/Announcements"> اطلاعیه‌ها</a>
+        </div>
+        <div class="main">
+            @if (TempData["Msg"] != null)
+            {
+                <div style="background:#d4edda;color:#155724;padding:.5rem;border-radius:4px;margin-bottom:1rem">@TempData["Msg"]</div>
+            }
+            @if (TempData["Err"] != null)
+            {
+                <div style="background:#f8d7da;color:#721c24;padding:.5rem;border-radius:4px;margin-bottom:1rem">@TempData["Err"]</div>
+            }
+
+            <div class="card">
+                <h3>🏢 اتاق‌های قابل رزرو</h3>
+                <p>نوع گروه: @ViewBag.GroupType</p>
+                <div class="room-grid">
+                    @if (Model != null && Model.Any())
+                    {
+                        @foreach (var r in Model)
+                        {
+                            <div class="room-card">
+                                <h4>@r.NameRoom</h4>
+                                <p>بلوک: @r.BlockName</p>
+                                <p>خوابگاه: @r.DormitoryName</p>
+                                <p>ظرفیت: @r.Capacity نفر</p>
+                                <span class="badge">🟢 @r.AvailableCapacity جای خالی</span>
+                                <form method="post" action="/Student/ReserveRoom" style="margin-top:.5rem">
+                                    <input type="hidden" name="groupId" value="@ViewBag.GroupId">
+                                    <input type="hidden" name="roomId" value="@r.RoomID">
+                                    <button type="submit" class="btn btn-primary">رزرو</button>
+                                </form>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p>اتاقی برای رزرو یافت نشد.</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
