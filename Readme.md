@@ -1,12 +1,12 @@
 # Dormitory Management System
 ### Database Design & .NET Development
 
-<p align="center">
-  ![.NET](https://img.shields.io/badge/.NET-512BD4?logo=dotnet&logoColor=white)
-  ![SQL Server](https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
-  ![Database](https://img.shields.io/badge/Database_Design-SQL-blue)
-  ![Status](https://img.shields.io/badge/Project-Academic-success)
-</p>
+
+![.NET](https://img.shields.io/badge/.NET-512BD4?logo=dotnet&logoColor=white)
+![SQL Server](https://img.shields.io/badge/Microsoft_SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
+![Database](https://img.shields.io/badge/Database_Design-SQL-blue)
+![Status](https://img.shields.io/badge/Project-Academic-success)
+
 
 ## Overview
 
